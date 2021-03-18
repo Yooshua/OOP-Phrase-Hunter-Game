@@ -1,8 +1,12 @@
-from phrase import Phrase
-from game import Game
+import game
 
 
 # Create your Dunder Main statement.
 if __name__ == '__main__':
-    ## Create an instance of your Game class
-    ## Start your game by calling the instance method that starts the game loop
+    game = game.Game()
+    while True:
+        game.start()
+        play_again = input('\nWould you like to play again? (y/n) ')
+        if not play_again.lower() == 'y':
+            break
+    print('Thanks for playing!')
