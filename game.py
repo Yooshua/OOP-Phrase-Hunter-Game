@@ -11,6 +11,7 @@ class Game:
                         phrase.Phrase('the night is young')]
         self.active_phrase = None
         self.guesses = []
+
         #  create a list of valid inputs
         alphabet = 'abcdefghijklmnopqrstuvwxyz'
         self.valid_input = []
@@ -25,25 +26,24 @@ class Game:
         self.active_phrase.reset_phrase()
         current_phrase = self.active_phrase
         Game.welcome(self)
-        # print(self.active_phrase)
         while not current_phrase.check_complete():
             current_phrase.display()
             guess = Game.get_guess(self)
-            self.guesses.append(guess)
             if not current_phrase.check_letter(guess):
                 self.missed += 1
+                self.guesses.append(guess)
                 if self.missed < 5:
                     print(f'\nIncorrect!  You have used {self.missed} of 5 guesses!')
-                    print(f"You have used {','.join(self.guesses)}.\n")
+                    print(f"You have used the following incorrect letters: {','.join(self.guesses)}.\n")
 
                 else:
                     Game.game_over()
                     break
+            elif not current_phrase.check_complete():
+                print(f"\nThe letter '{guess}' is correct!\n")
         if current_phrase.check_complete():
             print('\n\nCongratulations you won!')
             print(f'The phrase was "{self.active_phrase.phrase}"')
-
-
 
 
 
@@ -59,7 +59,7 @@ class Game:
     def get_guess(self): #  This method gets the guess from a user and records it in the guesses attribute
         guess = ""
         while guess not in self.valid_input:
-            guess = input('\nGuess a letter: ').lower()
+            guess = input('Guess a letter: ').lower()
             if guess not in self.valid_input:
                 print('\nThat is not a valid input')
         return guess
