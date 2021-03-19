@@ -4,11 +4,11 @@ import phrase
 class Game:
     def __init__(self):
         self.missed = 0
-        self.phrases = ['when in Rome',
-                        'fill in the blank',
-                        'where there is smoke there is fire',
-                        'one for all all for one',
-                        'the night is young']
+        self.phrases = [phrase.Phrase('when in Rome'),
+                        phrase.Phrase('fill in the blank'),
+                        phrase.Phrase('where there is smoke there is fire'),
+                        phrase.Phrase('one for all all for one'),
+                        phrase.Phrase('the night is young')]
         self.active_phrase = None
         self.guesses = []
         #  create a list of valid inputs
@@ -21,7 +21,9 @@ class Game:
     def start(self):
         self.active_phrase = self.get_random_phrase()
         self.missed = 0
-        current_phrase = phrase.Phrase(self.active_phrase)
+        self.guesses = []
+        self.active_phrase.reset_phrase()
+        current_phrase = self.active_phrase
         Game.welcome(self)
         # print(self.active_phrase)
         while not current_phrase.check_complete():
@@ -35,10 +37,11 @@ class Game:
                     print(f"You have used {','.join(self.guesses)}.\n")
 
                 else:
-                    Game.game_over(self)
+                    Game.game_over()
                     break
-        print('\n\nCongratulations you won!')
-        print(f'The phrase was "{self.active_phrase}"')
+        if current_phrase.check_complete():
+            print('\n\nCongratulations you won!')
+            print(f'The phrase was "{self.active_phrase.phrase}"')
 
 
 
